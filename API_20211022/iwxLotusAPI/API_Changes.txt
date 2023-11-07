@@ -1,0 +1,20 @@
+Lotus API changes:
+8/31/2021 FlipLoff(): to flip  the direction of the leadoff current. 
+8/25/2021: Added AcqSetLoffCurrentFreq  to allow the Application to control the current andd frequency for measuring the impedance
+3/29/20201:  Added second harmonic to the notch filter
+             Stim1 and Stim2 amplitude controlled fixed.
+			 Increased Online USB buffer to 16M bytes, which should be enough for 16 seconds of 16 channels of data at 16k
+3/26/2021:  fixed stimulator amplitude update  during recording
+			Stimulator output at low amplitude. 
+			Stimulator feedback cleaned up in fimware.
+3/23/2021:  The offset calibration of the acquisition board can now be saved in Firmware.  The acquisition Impedance calculation function has been changed. 
+			SetAcquisitionImpedanceOffset();  and GetAcquisitionImpedanceOffset(float* ch_impedance_offset); functions have been added to the API
+			The acquisition impedance function has been changed in the console application. 
+			We are not sure if a single point cal is enough for the impedance measurements, or if we need to do a 2 point cal 
+3/16/21: Changed the SetControlStimulatorParameters  function so that the function waits for the thread to send the data down to the device.
+         This allows to get a better notification if the control module is disconnected.  The draw back is that the function has to wait for 100msec
+		 before returning since the Control thread only send data to the control module every 100msec.
+3/10/21:  Change Closed Device to have void return:
+		   SetControlStimulatorParameters should report error if disconnected
+		   SetAcquisitionParameters should report error if disconnected
+3/8/2021:  Added example in the console applicaton to show the information from the status bits

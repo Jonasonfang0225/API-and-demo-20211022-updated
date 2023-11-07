@@ -1,0 +1,34 @@
+On powerup the Lotus boards will go to their default state.
+The software/API should send all the required parameters to the Lotus Hardware before starting acquisition  or stimulation.
+
+Typical Proceedure for recording Data
+1) Find the Hardware: 
+	Use FindAcquisitionHardware, FindStimulationHardware, FindControlHardware
+2) Read the Self Check values from the Hardware:
+	ReportAcquisitionSelfCheck, ReportStimulatorSelfCheck, ReportControlSelfCheck
+3) If 1-wire information about the cables is require:
+	call SetConnCheckStimPorts  and SetConnCheckAcqPorts( this is no longer needed as the acquisition board does not use 1-wire )
+	Then call GetStimChannelInfo
+4) Get Impedance if needed
+	GetAcquisitionChannelImpedance and GetStimChannelImpedance
+5) Setup the stimulator protocol to be used.
+	If the stimulator channel is not used it needs to be turned offusing SetStimulatorOff
+	For the stimulator channels being used set up the stimulator using SetStimulationParameters
+		CStimulationTrain contains all the settings required for setting up the stimulator.
+		If want to start the stimulator when the recoring starts: set m_start_with_recording to true.
+		if m_start_with_recording is set to false, the stimulator will not start automatically.
+		You can start the stimulator at any time by choosing: FireStimulator
+
+		The stimulation protocol is a Train of pulses, if you want a continous train then you need to set the m_num_trains to 0.
+		In the Auto mode, set the m_start_with_recording = true and m_num_trains = 0;
+		In Manual mode, set m_start_with_recording = false;  then you can use FireStimulator to start the stimulator. 
+		
+6)	SetAcquisitionParameters
+7) Start Recording Data using 	StartAcq()
+8) Read data from the device using : ReadDataFromDevice
+9) Fire the stimulator manually if needed
+10) Stop Recording
+11) Close the devices.
+
+
+
